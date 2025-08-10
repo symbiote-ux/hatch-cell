@@ -1,15 +1,3 @@
-
-
-### Tech Stack
-
-- Next.js 15 (App Router), React 18, TypeScript (strict)
-- Tailwind CSS + shadcn/ui primitives
-- Prisma ORM (PostgreSQL)
-- Testing: Vitest + React Testing Library
-- Infra: Vercel/AWS-ready; S3 for images
-
----
-
 ## Directory Layout (purpose)
 
 ```
@@ -18,82 +6,16 @@ src/
   components/     # Reusable UI and feature components
     ui/           # shadcn-style primitives (button, card, input, dialog, ...)
     layouts/      # Layout components
-  constants/      # Static content/config per domain (home, school, etc.)
+  constants/      # Static content/config per domain
   contexts/       # React Context providers
-  hooks/          # Custom hooks (auth session, performance, responsive)
+  hooks/          # Custom hooks (auth session, responsive)
   lib/            # Cross-cutting libs (auth, security, prisma, email, utils)
     middleware/   # Modular middleware: security, rate limit, auth, CORS
-    utils/        # cn(), icons, image-resize, map, filter utils (re-exports)
-  services/       # Domain services (school, seo, student, teacher)
+  services/       # Domain services
   styles/         # Theme tokens (theme.ts) consumed by Tailwind config
-  types/          # Shared TypeScript types
-
 prisma/           # Generated composed schema + migrations
-prisma-config/    # Modular prisma models + `merge-prisma-schema.ts`
-scripts/          # Security, seeding, analysis scripts
-docs/             # SPEC, AUTHENTICATION, SECURITY_SETUP, TESTING, etc.
-```
+``
 
----
-
-## Coding Rules & Conventions
-
-- TypeScript
-  - `strict: true`; path alias `@/*` → `src/*`
-  - Prefer interfaces for objects; explicit return types for exported APIs
-  - Disallow `any`; unused variables must be prefixed with `_`
-- ESLint/Prettier
-  - Extends `next/core-web-vitals` and `@typescript-eslint/recommended`
-  - Prettier: `printWidth: 120`, `singleQuote: true`
-- Naming
-  - Components (feature): PascalCase files; UI primitives: lower-case file names (e.g., `button.tsx`)
-  - Variables/functions: camelCase; constants: UPPER_CASE
-- React
-  - Functional components; typed props; use `forwardRef` for primitives
-  - Keep files under 500 LOC; extract hooks/utils when growing
-- Imports
-  - Relative within feature; use `@/` for cross-feature/shared
-- Comments
-  - Explain “why” for non-obvious logic; avoid trivial commentary
-
----
-
-## Styling Rules
-
-- Tailwind
-  - Dark mode via `class`
-  - Tokens defined in `src/styles/theme.ts` and exposed in Tailwind via `tailwind.config.ts`
-  - Breakpoints: `sm 640`, `md 768`, `lg 1024`, `xl 1280`, `2xl 1536`
-  - Colors via CSS variables (`:root` / `.dark`): `--background`, `--primary`, etc. consumed as `hsl(var(--token))`
-  - Custom utilities in `globals.css`: `.scrollbar-hide`, `.line-clamp-3`, `.line-clamp-4`
-  - Focus patterns: `focus-visible:ring-*` consistent across inputs/buttons
-- shadcn/ui primitives
-  - Live in `src/components/ui/*`; built with `cva` and `cn()`
-  - Standard variant/size APIs with typed `VariantProps`
-  - Example: button variants (`variant: default|destructive|outline|secondary|ghost|link`; `size: sm|default|lg|icon`)
-- Spacing & layout
-  - Section wrapper (`ui/section.tsx`) standardizes vertical rhythm:
-    - `sm: py-8`, `md: py-12`, `lg: py-16`, `xl: py-20`; centers with `mx-auto` + `max-w-*`
-- Animation
-  - `tailwindcss-animate` + small custom keyframes (e.g., accordion)
-
----
-
-## Component, Hooks, and Utility Patterns
-
-- Class composition
-  - `cn(...classes)` using `clsx` + `tailwind-merge` to dedupe
-  - `cva` for typed variants; expose `VariantProps<typeof variants>`
-- UI primitives
-  - Forward refs; accessible focus states; disabled states unified
-  - Compound components: `Card`, `CardHeader`, `CardContent`, `CardFooter`, etc.
-- Hooks
-  - `useIsMobile(breakpoint=768)` resize breakpoint detection
-  - `usePerformance`: `useDebounce`, `useIntersectionObserver`, timers, and insights
-- Utils
-  - Re-export URL filter helpers from services; image resize, map/location utilities
-
----
 
 ## Data, Security, and Middleware
 
